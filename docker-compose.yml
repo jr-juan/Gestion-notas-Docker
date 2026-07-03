@@ -1,0 +1,48 @@
+services:
+  db:
+    image: postgres:18
+    container_name: notas_db
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: gestion_notas
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./pgdata:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d gestion_notas"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: notas_pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: juanromancuero@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
+
+  web:
+    build: ./app
+    container_name: notas_web
+    restart: always
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: gestion_notas
+      DB_USER: admin
+      DB_PASSWORD: admin123
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./app:/app
+    depends_on:
+      db:
+        condition: service_healthy

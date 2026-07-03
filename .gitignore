@@ -1,0 +1,12 @@
+# Datos de PostgreSQL (no se sube al repo, cada quien genera los suyos localmente)
+pgdata/*
+!pgdata/.gitkeep
+
+# Python
+__pycache__/
+*.pyc
+.env
+
+# Sistema
+.DS_Store
+Thumbs.db
