@@ -5,6 +5,16 @@ Sistema web para la gestion de notas de estudiantes. Permite a un profesor
 registrar notas por materia y periodo, y a un estudiante
 consultar las suyas.
 
+## Situación problémica
+
+La Universidad necesita un sistema de gestión de notas que funcione de manera
+idéntica en cualquier computador, sin importar el sistema
+operativo o las dependencias instaladas previamente. Este proyecto resuelve
+ese problema empaquetando la aplicación web (Flask), la base de datos
+(PostgreSQL) y su administrador (pgAdmin) en contenedores Docker
+independientes, orquestados con Docker Compose, garantizando portabilidad
+y consistencia entre entornos de desarrollo.
+
 ## Integrantes y roles
 
 | Integrante | Rol |
@@ -77,13 +87,30 @@ docker compose down
 ```
 y luego borra manualmente el contenido de la carpeta `pgdata/`.
 
+
 ## Modelo relacional
 
-- **usuarios**: credenciales y rol (estudiante/profesor)
-- **profesores**: datos del profesor, ligado a usuarios
-- **estudiantes**: datos del estudiante, ligado a usuarios
-- **materias**: materia y profesor a cargo
-- **notas**: nota (1 a 100) de un estudiante en una materia y periodo
+- **usuarios**: credenciales de acceso (username, password, rol: estudiante/profesor), estado activo
+- **profesores**: documento, nombre, correo, teléfono, especialidad — ligado a usuarios
+- **estudiantes**: código, nombre, correo, teléfono, programa académico — ligado a usuarios
+- **materias**: código de materia, nombre, créditos, profesor a cargo
+- **notas**: nota (0 a 100) de un estudiante en una materia, por periodo y tipo
+  de evaluación (Parcial 1, Parcial 2, Seguimiento, Examen Final), con su
+  porcentaje correspondiente
+
+## Cómo probar la portabilidad (evidencia para la rúbrica)
+
+Para confirmar que el proyecto corre igual en cualquier equipo:
+
+```bash
+git clone https://github.com/jr-juan/Gestion-notas-Docker.git
+cd Gestion-notas-Docker
+docker compose up --build
+```
+
+En el otro equipo levantar sin modificar nada y accedera a
+`http://localhost:5000` y `http://localhost:5050` sin errores, quedara
+demostrada la portabilidad.
 
 ## Bitacora de reflexion 
 
@@ -98,8 +125,26 @@ y luego borra manualmente el contenido de la carpeta `pgdata/`.
 - **Solucion aplicada:** Investigamos y encontramos que la version fijada (`2.9.9`) no tenia wheel precompilado para Python 3.13. Actualizamos `requirements.txt` a `psycopg2-binary==2.9.10`, version que si incluye wheel para esa version de Python, y el build paso sin errores.
 
 ### Autoevaluacion (metacognicion)
-- **Que concepto de Docker me costo mas comprender?**
-- **Que estrategia use para aprenderlo?**
+- **Que concepto de Docker me costo mas comprender?** Los volumenes.
+  No tenia claro que el volumen es lo que hace que los datos de la base
+  de datos no se pierdan cuando se apaga o se borra el contenedor. Se
+  me complico en el archivo `docker-compose.yml`, en la parte donde se
+  monta el volumen del servicio `db` (`./pgdata:/var/lib/postgresql`):
+  al principio lo tenia mal escrito como `/var/lib/postgresql/data` y
+  el contenedor `notas_db` no arrancaba, quedaba en estado "unhealthy".
+- **Que estrategia use para aprenderlo?** Lei el mensaje de error completo
+  que mostraba la terminal (no solo la primera linea) y busque en la
+  documentacion oficial de la imagen de Postgres en Docker Hub. Ahi
+  entendi que desde la version 18 de Postgres, el volumen se debe montar
+  en `/var/lib/postgresql` y no en `/var/lib/postgresql/data` como antes.
+  Cambiando esa linea en el `docker-compose.yml`, el contenedor arranco bien.
 
 ### Coevaluacion entre companeros
-- **Comentario tecnico sobre el trabajo de mis companeros:**
+- **Comentario tecnico sobre el trabajo de mis companeros:** El script de
+  Jhon Jader (poblado de datos) esta muy bien resuelto: uso
+  `setval(pg_get_serial_sequence(...))` despues de insertar usuarios con ID
+  manual, lo que evita errores de llave duplicada mas adelante, y genero las
+  800 notas con `INSERT ... SELECT ... FROM estudiantes` usando `random()`
+  en vez de escribirlas una por una. Como observacion, quedo pendiente
+  confirmar que cada estudiante tenga tambien su fila en `usuarios` para que
+  el login funcione correctamente.
