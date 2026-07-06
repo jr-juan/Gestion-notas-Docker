@@ -45,15 +45,36 @@ gestion-notas/
     ├── Dockerfile
     ├── requirements.txt
     ├── app.py
+    ├── src/
+    │   ├── __init__.py
+    │   ├── auth.py         
+    │   ├── db.py           
+    │   └── notas.py        
     ├── vistas/
-    │   ├── index.html
+    │   ├── index.html      
     │   ├── login.html
-    │   ├── estudiante.html
-    │   └── profesor.html
+    │   ├── estudiante/
+    │   │   ├── menu.html
+    │   │   └── mis_notas.html
+    │   └── profesor/
+    │       ├── menu.html
+    │       ├── registrar.html
+    │       └── gestionar.html
     └── static/
         ├── css/
         └── js/
+            └── main.js      
 ```
+
+## Backend - Como funciona
+
+- **db.py**: centraliza la conexion a PostgreSQL con `psycopg2`, leyendo host, puerto, usuario y password desde variables de entorno.
+- **auth.py**: valida credenciales contra la tabla `usuarios` (solo activos) y expone el decorador `login_required(rol=...)` para proteger rutas por sesion y por rol.
+- **notas.py**: logica de negocio de notas — consultas para estudiante (detalle + definitivas por materia) y profesor (materias, estudiantes, notas), mas el CRUD (`crear_nota`, `actualizar_nota`, `eliminar_nota`) con commit/rollback.
+- **app.py**: arma las rutas Flask en tres grupos — autenticacion (`/login`, `/logout`), vistas por rol (`/estudiante/...`, `/profesor/...`) y API JSON (`/api/mis-notas`, `/api/materias`, `/api/estudiantes`, `/api/notas`) que consume `main.js` por fetch. No tiene logica propia, solo llama a `auth.py` y `notas.py`.
+
+**Nota:** la definitiva de una materia solo se muestra cuando el porcentaje acumulado de notas llega al 100%; si no, se marca como "en proceso".
+
 
 ## Como levantar el proyecto
 
@@ -145,6 +166,4 @@ demostrada la portabilidad.
   `setval(pg_get_serial_sequence(...))` despues de insertar usuarios con ID
   manual, lo que evita errores de llave duplicada mas adelante, y genero las
   800 notas con `INSERT ... SELECT ... FROM estudiantes` usando `random()`
-  en vez de escribirlas una por una. Como observacion, quedo pendiente
-  confirmar que cada estudiante tenga tambien su fila en `usuarios` para que
-  el login funcione correctamente.
+  en vez de escribirlas una por una. 
