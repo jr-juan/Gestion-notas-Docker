@@ -6,11 +6,18 @@ from src.db import get_connection
 
 
 def validar_credenciales(username, password):
-    """Devuelve (id, rol) si el usuario existe y esta activo, o None si no."""
+    """Devuelve (id, rol, nombre) si el usuario existe y esta activo, o None si no."""
     conn = get_connection()
     cur = conn.cursor()
     cur.execute(
-        "SELECT id, rol FROM usuarios WHERE username = %s AND password = %s AND activo = TRUE",
+        """
+        SELECT u.id, u.rol,
+               COALESCE(e.nombre, p.nombre) AS nombre
+        FROM usuarios u
+        LEFT JOIN estudiantes e ON e.usuario_id = u.id
+        LEFT JOIN profesores p ON p.usuario_id = u.id
+        WHERE u.username = %s AND u.password = %s AND u.activo = TRUE
+        """,
         (username, password),
     )
     usuario = cur.fetchone()
