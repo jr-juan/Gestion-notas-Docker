@@ -10,11 +10,11 @@
     {% if session.get('usuario_id') %}
     <header>
         {% if session.get('rol') == 'estudiante' %}
-            <a href="{{ url_for('menu_estudiante') }}" class="user-info user-menu-link">Hola, {{ session.get('username') or 'Usuario' }}</a>
+            <a href="{{ url_for('menu_estudiante') }}" class="user-info user-menu-link">Hola, {{ session.get('nombre') or 'Usuario' }}</a>
         {% elif session.get('rol') == 'profesor' %}
-            <a href="{{ url_for('menu_profesor') }}" class="user-info user-menu-link">Hola, {{ session.get('username') or 'Usuario' }}</a>
+            <a href="{{ url_for('menu_profesor') }}" class="user-info user-menu-link">Hola, {{ session.get('nombre') or 'Usuario' }}</a>
         {% else %}
-            <div class="user-info">Hola, {{ session.get('username') or 'Usuario' }}</div>
+            <div class="user-info">Hola, {{ session.get('nombre') or 'Usuario' }}</div>
         {% endif %}
         <nav>
             <a href="{{ url_for('logout') }}" class="logout" aria-label="Cerrar sesión" title="Cerrar sesión">
