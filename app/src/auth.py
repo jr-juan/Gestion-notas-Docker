@@ -25,7 +25,8 @@ def login_required(rol=None):
         @wraps(f)
         def wrapper(*args, **kwargs):
             if "usuario_id" not in session:
-                return redirect(url_for("login"))
+                from flask import request
+                return redirect(url_for("login", next=request.path))
             if rol and session.get("rol") != rol:
                 return jsonify({"error": "No autorizado para este rol"}), 403
             return f(*args, **kwargs)

@@ -3,26 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Gestion de Notas{% endblock %}</title>
+    <title>{% block title %}Gestión de Notas{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body>
+<body class="{% if request.endpoint not in ['home', 'login'] %}fondo-morado{% endif %}">
+    {% if session.get('usuario_id') %}
     <header>
-        <h1>Sistema de Gestion de Notas </h1>
-        {% if session.get('usuario_id') %}
-        <nav>
-            {% if session.get('rol') == 'estudiante' %}
-                <a href="{{ url_for('menu_estudiante') }}">Menu</a>
-            {% elif session.get('rol') == 'profesor' %}
-                <a href="{{ url_for('menu_profesor') }}">Menu</a>
-            {% endif %}
-            <a href="{{ url_for('logout') }}" class="logout">Cerrar sesion</a>
-        </nav>
+        {% if session.get('rol') == 'estudiante' %}
+            <a href="{{ url_for('menu_estudiante') }}" class="user-info user-menu-link">Hola, {{ session.get('username') or 'Usuario' }}</a>
+        {% elif session.get('rol') == 'profesor' %}
+            <a href="{{ url_for('menu_profesor') }}" class="user-info user-menu-link">Hola, {{ session.get('username') or 'Usuario' }}</a>
+        {% else %}
+            <div class="user-info">Hola, {{ session.get('username') or 'Usuario' }}</div>
         {% endif %}
+        <nav>
+            <a href="{{ url_for('logout') }}" class="logout" aria-label="Cerrar sesión" title="Cerrar sesión">
+                <img src="{{ url_for('static', filename='iconos/cerrar-sesion.png') }}" alt="Cerrar sesión">
+            </a>
+        </nav>
     </header>
+    {% endif %}
 
     <main>
-        {% block content %}{% endblock %}
+        {% block content %}
+        <section class="inicio-container">
+            <div class="inicio-imagen">
+                <img src="{{ url_for('static', filename='imagenes/portada.jpg') }}" alt="Portada">
+            </div>
+            <div class="inicio-contenido">
+                <h2>Bienvenido al Sistema de Gestión de Notas</h2>
+                <p>Sistema integral para administrar y consultar calificaciones de forma segura y eficiente.</p>
+                
+                <div class="inicio-features">
+                    <div class="feature">
+                        <h3>Para Estudiantes</h3>
+                        <p>Consulta tus notas, seguimiento académico y calificaciones definitivas en tiempo real.</p>
+                    </div>
+                    <div class="feature">
+                        <h3>Para Profesores</h3>
+                        <p>Registra, gestiona y actualiza las notas de tus estudiantes de manera fácil.</p>
+                    </div>
+                </div>
+                
+                <a href="{{ url_for('login') }}" class="btn-login">Iniciar Sesión</a>
+            </div>
+        </section>
+        {% endblock %}
     </main>
 
     <footer>

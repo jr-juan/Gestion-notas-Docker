@@ -107,6 +107,9 @@ async function crearNota(evento) {
         mensaje.textContent = "Nota registrada correctamente.";
         mensaje.className = "exito";
         document.getElementById("form-registrar").reset();
+        setTimeout(() => {
+            window.location.href = "/profesor";
+        }, 1000);
     } else {
         const error = await resp.json();
         mensaje.textContent = "Error: " + (error.detalle || "no se pudo guardar la nota.");
@@ -150,7 +153,8 @@ async function cargarNotasGestion() {
 }
 
 function editarNota(id, periodo, tipoNota, porcentaje, nota) {
-    document.getElementById("form-editar-nota").style.display = "flex";
+    document.getElementById("contenedor-editar").style.display = "block";
+    document.getElementById("contenedor-tabla").style.display = "none";
     document.getElementById("nota_id").value = id;
     document.getElementById("periodo").value = periodo;
     document.getElementById("tipo_nota").value = tipoNota;
@@ -159,7 +163,8 @@ function editarNota(id, periodo, tipoNota, porcentaje, nota) {
 }
 
 function cancelarEdicion() {
-    document.getElementById("form-editar-nota").style.display = "none";
+    document.getElementById("contenedor-editar").style.display = "none";
+    document.getElementById("contenedor-tabla").style.display = "block";
     document.getElementById("form-editar-nota").reset();
 }
 

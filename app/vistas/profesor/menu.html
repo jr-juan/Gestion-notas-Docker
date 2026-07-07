@@ -1,11 +1,21 @@
 {% extends "index.html" %}
-{% block title %}Menu Profesor{% endblock %}
+{% block title %}Menú Profesor{% endblock %}
 {% block content %}
 <section>
     <h2>Bienvenido</h2>
     <ul class="menu-opciones">
-        <li><a href="{{ url_for('vista_registrar') }}">Registrar nota</a></li>
-        <li><a href="{{ url_for('vista_gestionar') }}">Gestionar notas</a></li>
+        <li>
+            <a href="{{ url_for('vista_registrar') }}">
+                <img src="{{ url_for('static', filename='iconos/calificar.png') }}" alt="Registrar nota">
+                <span>Registrar nota</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ url_for('vista_gestionar') }}">
+                <img src="{{ url_for('static', filename='iconos/calificaciones.png') }}" alt="Gestionar notas">
+                <span>Gestionar notas</span>
+            </a>
+        </li>
     </ul>
 </section>
 {% endblock %}

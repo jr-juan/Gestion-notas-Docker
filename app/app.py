@@ -17,7 +17,7 @@ def home():
     if "usuario_id" in session:
         destino = "menu_profesor" if session["rol"] == "profesor" else "menu_estudiante"
         return redirect(url_for(destino))
-    return redirect(url_for("login"))
+    return render_template("index.html")
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -31,6 +31,7 @@ def login():
         if usuario:
             session["usuario_id"] = usuario[0]
             session["rol"] = usuario[1]
+            session["username"] = username
             destino = "menu_profesor" if usuario[1] == "profesor" else "menu_estudiante"
             return redirect(url_for(destino))
         error = "Usuario o contrasena incorrectos"
