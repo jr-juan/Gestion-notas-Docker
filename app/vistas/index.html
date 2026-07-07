@@ -3,12 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Gestión de Notas{% endblock %}</title>
+    <title>{% block title %}Gestion de Notas{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
     <header>
-        <h1>Sistema de Gestión de Notas - Universidad del Pacífico</h1>
+        <h1>Sistema de Gestion de Notas </h1>
+        {% if session.get('usuario_id') %}
+        <nav>
+            {% if session.get('rol') == 'estudiante' %}
+                <a href="{{ url_for('menu_estudiante') }}">Menu</a>
+            {% elif session.get('rol') == 'profesor' %}
+                <a href="{{ url_for('menu_profesor') }}">Menu</a>
+            {% endif %}
+            <a href="{{ url_for('logout') }}" class="logout">Cerrar sesion</a>
+        </nav>
+        {% endif %}
     </header>
 
     <main>
@@ -16,7 +26,7 @@
     </main>
 
     <footer>
-        <p>Electiva Profesional III - Docker</p>
+        <p>TALLER - Docker</p>
     </footer>
 
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>

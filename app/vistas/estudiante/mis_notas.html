@@ -1,0 +1,35 @@
+{% extends "index.html" %}
+{% block title %}Mis notas{% endblock %}
+{% block content %}
+<section>
+    <h2>Mis notas</h2>
+    <table id="tabla-notas">
+        <thead>
+            <tr>
+                <th>Materia</th>
+                <th>Periodo</th>
+                <th>Tipo</th>
+                <th>Porcentaje</th>
+                <th>Nota</th>
+            </tr>
+        </thead>
+        <tbody id="cuerpo-tabla-notas">
+            <tr><td colspan="5">Cargando...</td></tr>
+        </tbody>
+    </table>
+
+    <h2>Definitivas por materia</h2>
+    <table id="tabla-definitivas">
+        <thead>
+            <tr>
+                <th>Materia</th>
+                <th>Periodo</th>
+                <th>Definitiva</th>
+            </tr>
+        </thead>
+        <tbody id="cuerpo-tabla-definitivas">
+            <tr><td colspan="3">Cargando...</td></tr>
+        </tbody>
+    </table>
+</section>
+{% endblock %}

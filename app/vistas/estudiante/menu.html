@@ -1,0 +1,10 @@
+{% extends "index.html" %}
+{% block title %}Menu Estudiante{% endblock %}
+{% block content %}
+<section>
+    <h2>Bienvenido</h2>
+    <ul class="menu-opciones">
+        <li><a href="{{ url_for('vista_mis_notas') }}">Ver mis notas</a></li>
+    </ul>
+</section>
+{% endblock %}
