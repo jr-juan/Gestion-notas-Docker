@@ -76,6 +76,15 @@ gestion-notas/
 **Nota:** la definitiva de una materia solo se muestra cuando el porcentaje acumulado de notas llega al 100%; si no, se marca como "en proceso".
 
 
+## Frontend - Como funciona
+
+Interfaz basada en una plantilla comun (`index.html`) que cambia segun haya
+o no sesion iniciada. Cada rol tiene su propio menu de navegacion y sus
+vistas (estudiante: consultar notas y definitivas; profesor: registrar,
+editar y eliminar notas). Todo el diseño vive en un unico CSS, y un solo
+archivo JS (`main.js`) detecta la vista actual y consume la API del backend
+via `fetch` para mostrar y actualizar la informacion sin recargar la pagina.
+
 ## Como levantar el proyecto
 
 ```bash
