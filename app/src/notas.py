@@ -116,6 +116,18 @@ def listar_notas_profesor(usuario_id, materia_id=None):
 
 
 def crear_nota(datos):
+    acumulado = obtener_porcentaje_acumulado(
+        datos["estudiante_id"], datos["materia_id"], datos["periodo"]
+    )
+    nuevo_total = acumulado + float(datos["porcentaje"])
+
+    if nuevo_total > 100:
+        raise ValueError(
+            f"No se puede registrar: el porcentaje acumulado quedaria en {nuevo_total}% "
+            f"(ya hay {acumulado}% registrado para esta materia y periodo). "
+            f"Maximo disponible: {100 - acumulado}%."
+        )
+
     conn = get_connection()
     cur = conn.cursor()
     try:
@@ -144,6 +156,30 @@ def crear_nota(datos):
 def actualizar_nota(nota_id, datos):
     conn = get_connection()
     cur = conn.cursor()
+
+    
+    cur.execute("SELECT estudiante_id, materia_id FROM notas WHERE id = %s", (nota_id,))
+    fila = cur.fetchone()
+    if not fila:
+        cur.close()
+        conn.close()
+        raise ValueError("La nota que intentas editar no existe.")
+
+    estudiante_id, materia_id = fila
+    acumulado = obtener_porcentaje_acumulado(
+        estudiante_id, materia_id, datos["periodo"], excluir_nota_id=nota_id
+    )
+    nuevo_total = acumulado + float(datos["porcentaje"])
+
+    if nuevo_total > 100:
+        cur.close()
+        conn.close()
+        raise ValueError(
+            f"No se puede actualizar: el porcentaje acumulado quedaria en {nuevo_total}% "
+            f"(ya hay {acumulado}% en las demas notas de esta materia y periodo). "
+            f"Maximo disponible: {100 - acumulado}%."
+        )
+
     try:
         cur.execute(
             """
@@ -171,3 +207,24 @@ def eliminar_nota(nota_id):
     cur.close()
     conn.close()
     return {"status": "eliminado"}
+
+def obtener_porcentaje_acumulado(estudiante_id, materia_id, periodo, excluir_nota_id=None):
+    """Suma los porcentajes ya registrados para ese estudiante+materia+periodo.
+    Si excluir_nota_id se pasa, no cuenta esa nota (util al editar)."""
+    conn = get_connection()
+    cur = conn.cursor()
+    query = """
+        SELECT COALESCE(SUM(porcentaje), 0)
+        FROM notas
+        WHERE estudiante_id = %s AND materia_id = %s AND periodo = %s
+    """
+    params = [estudiante_id, materia_id, periodo]
+    if excluir_nota_id:
+        query += " AND id != %s"
+        params.append(excluir_nota_id)
+
+    cur.execute(query, params)
+    total = cur.fetchone()[0]
+    cur.close()
+    conn.close()
+    return float(total)
