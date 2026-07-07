@@ -31,6 +31,7 @@ def login():
         if usuario:
             session["usuario_id"] = usuario[0]
             session["rol"] = usuario[1]
+            session["nombre"] = usuario[2]
             session["username"] = username
             destino = "menu_profesor" if usuario[1] == "profesor" else "menu_estudiante"
             return redirect(url_for(destino))
