@@ -8,6 +8,7 @@
         <img src="{{ url_for('static', filename='imagenes/cuaderno.png') }}" alt="Mis notas" class="icono-pequeno">
     </div>
     <div class="cuadro-tabla">
+        <div class="tabla-scroll-notas"> 
         <table id="tabla-notas">
             <thead>
                 <tr>
@@ -21,11 +22,13 @@
             <tbody id="cuerpo-tabla-notas">
                 <tr><td colspan="5">Cargando...</td></tr>
             </tbody>
-        </table>
+         </table>
+        </div>
     </div>
 
     <h2 style="margin-top: 40px;">Definitivas por materia</h2>
     <div class="cuadro-tabla">
+         <div class="tabla-scroll-definitivas"> 
         <table id="tabla-definitivas">
             <thead>
                 <tr>
@@ -38,6 +41,7 @@
                 <tr><td colspan="3">Cargando...</td></tr>
             </tbody>
         </table>
+        </div>
     </div>
 </section>
 {% endblock %}
