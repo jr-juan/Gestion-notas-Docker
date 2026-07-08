@@ -1,7 +1,8 @@
 {% extends "index.html" %}
 {% block title %}Registrar Nota{% endblock %}
 {% block content %}
-<section>
+<section style="position: relative;">
+    <a href="{{ url_for('menu_profesor') }}" class="btn-volver-superior">← Volver</a>
     <div class="titulo-con-imagen">
         <h2>Registrar nota</h2>
         <img src="{{ url_for('static', filename='imagenes/cuaderno.png') }}" alt="Notas" class="icono-pequeno">
@@ -34,10 +35,6 @@
             <button type="submit">Guardar</button>
         </form>
         <p id="mensaje"></p>
-    </div>
-
-    <div style="text-align: center; margin-top: 30px;">
-        <a href="{{ url_for('menu_profesor') }}" style="display: inline-block; background: #95a5a6; color: white; padding: 12px 30px; border-radius: 5px; text-decoration: none; font-weight: bold; transition: background 0.3s;">Volver al Menú</a>
     </div>
 </section>
 {% endblock %}

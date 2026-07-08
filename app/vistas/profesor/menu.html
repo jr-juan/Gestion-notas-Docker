@@ -2,7 +2,10 @@
 {% block title %}Menú Profesor{% endblock %}
 {% block content %}
 <section>
-    <h2>Bienvenido</h2>
+    <div class="menu-bienvenida">
+        <h2>Bienvenido, {{ session.get('nombre') or 'Profesor' }}</h2>
+        <p>Selecciona una opción para continuar</p>
+    </div>
     <ul class="menu-opciones">
         <li>
             <a href="{{ url_for('vista_registrar') }}">

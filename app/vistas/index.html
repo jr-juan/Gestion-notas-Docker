@@ -10,11 +10,29 @@
     {% if session.get('usuario_id') %}
     <header>
         {% if session.get('rol') == 'estudiante' %}
-            <a href="{{ url_for('menu_estudiante') }}" class="user-info user-menu-link">Hola, {{ session.get('nombre') or 'Usuario' }}</a>
+            <a href="{{ url_for('menu_estudiante') }}" class="user-info user-menu-link">
+                <svg class="user-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                {{ session.get('nombre') or 'Usuario' }}
+            </a>
         {% elif session.get('rol') == 'profesor' %}
-            <a href="{{ url_for('menu_profesor') }}" class="user-info user-menu-link">Hola, {{ session.get('nombre') or 'Usuario' }}</a>
+            <a href="{{ url_for('menu_profesor') }}" class="user-info user-menu-link">
+                <svg class="user-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                {{ session.get('nombre') or 'Usuario' }}
+            </a>
         {% else %}
-            <div class="user-info">Hola, {{ session.get('nombre') or 'Usuario' }}</div>
+            <div class="user-info">
+                <svg class="user-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                {{ session.get('nombre') or 'Usuario' }}
+            </div>
         {% endif %}
         <nav>
             <a href="{{ url_for('logout') }}" class="logout" aria-label="Cerrar sesión" title="Cerrar sesión">

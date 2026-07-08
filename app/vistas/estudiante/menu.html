@@ -2,9 +2,17 @@
 {% block title %}Menú Estudiante{% endblock %}
 {% block content %}
 <section>
-    <h2>Bienvenido</h2>
+    <div class="menu-bienvenida">
+        <h2>Bienvenido, {{ session.get('nombre') or 'Estudiante' }}</h2>
+        <p>Consulta tus calificaciones académicas</p>
+    </div>
     <ul class="menu-opciones">
-        <li><a href="{{ url_for('vista_mis_notas') }}">Ver mis notas</a></li>
+        <li>
+            <a href="{{ url_for('vista_mis_notas') }}">
+                <img src="{{ url_for('static', filename='imagenes/cuaderno.png') }}" alt="Ver mis notas">
+                <span>Ver mis notas</span>
+            </a>
+        </li>
     </ul>
 </section>
 {% endblock %}

@@ -1,7 +1,8 @@
 {% extends "index.html" %}
 {% block title %}Gestionar Notas{% endblock %}
 {% block content %}
-<section>
+<section style="position: relative;">
+    <a href="{{ url_for('menu_profesor') }}" class="btn-volver-superior">← Volver</a>
     <div id="contenedor-editar" class="cuadro-formulario" style="display:none;">
         <h2>Editar nota</h2>
         <form id="form-editar-nota">
@@ -48,10 +49,6 @@
                 <tr><td colspan="7">Cargando...</td></tr>
             </tbody>
         </table>
-    </div>
-
-    <div style="text-align: center; margin-top: 30px;">
-        <a href="{{ url_for('menu_profesor') }}" style="display: inline-block; background: #95a5a6; color: white; padding: 12px 30px; border-radius: 5px; text-decoration: none; font-weight: bold; transition: background 0.3s;">Volver al Menú</a>
     </div>
 </section>
 {% endblock %}
