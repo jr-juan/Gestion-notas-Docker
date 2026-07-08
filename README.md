@@ -229,9 +229,9 @@ que desde la version 18 de Postgres, el volumen se debe montar en
 `/var/lib/postgresql` y no en `/var/lib/postgresql/data` como antes.
 Cambiando esa linea en el `docker-compose.yml`, el contenedor arranco bien.
 
-### Coevaluacion entre companeros
+### Coevaluacion entre compañeros
 
-**Comentario tecnico sobre el trabajo de mis companeros:** el script de
+**Comentario tecnico sobre el trabajo de mis compañeros:** el script de
 Jhon Jader (poblado de datos) esta muy bien resuelto: uso
 `setval(pg_get_serial_sequence(...))` despues de insertar usuarios con ID
 manual, lo que evita errores de llave duplicada mas adelante, y genero las
@@ -240,3 +240,6 @@ vez de escribirlas una por una.
 Coevaluación entre compañeros
 
 **Comentario técnico sobre el trabajo del compañero encargado de Docker:** El trabajo de Juan Román en la configuración de Docker fue fundamental para el proyecto. Organizó correctamente los servicios de la aplicación, PostgreSQL y pgAdmin mediante Docker Compose, configuró las redes, volúmenes y variables de entorno para que todos los integrantes pudiéramos ejecutar el sistema con el mismo comando y sin diferencias entre equipos. Gracias a esa configuración, la integración del frontend, el backend y la base de datos se realizó de forma estable y facilitó las pruebas y el desarrollo colaborativo.
+
+**Comentario técnico sobre el trabajo de Darío (Desarrollo del Backend y API):**
+El trabajo de Darío con la lógica del backend y la API facilitó mucho la integración de todo el proyecto. Organizó muy bien el control de acceso usando sesiones y un decorador personalizado (`login_required`) para separar de forma segura lo que puede ver un estudiante de lo que hace el profesor. En `notas.py`, implementó las consultas de SQL de manera limpia, manejando transacciones con commit y rollback para evitar fallas en la base de datos, y haciendo que la nota definitiva se calcule directamente desde la consulta SQL. Además, conectó todo con el JavaScript del frontend usando fetch para que las acciones de crear, editar y borrar notas funcionen al instante sin tener que recargar la página.
