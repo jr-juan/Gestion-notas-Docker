@@ -229,20 +229,58 @@ que desde la version 18 de Postgres, el volumen se debe montar en
 `/var/lib/postgresql` y no en `/var/lib/postgresql/data` como antes.
 Cambiando esa linea en el `docker-compose.yml`, el contenedor arranco bien.
 
-### Coevaluacion entre compañeros
+### Coevaluacion entre companeros
 
-**Comentario tecnico sobre el trabajo de mis compañeros:** el script de
-Jhon Jader (poblado de datos) esta muy bien resuelto: uso
+#### Autor: Juan — Hacia: Jhon Jader
+
+**Comentario tecnico sobre el trabajo de mi companero (poblado de datos):**
+El script de poblado de datos esta muy bien resuelto: uso
 `setval(pg_get_serial_sequence(...))` despues de insertar usuarios con ID
 manual, lo que evita errores de llave duplicada mas adelante, y genero las
 800 notas con `INSERT ... SELECT ... FROM estudiantes` usando `random()` en
 vez de escribirlas una por una.
-Coevaluación entre compañeros
 
-**Comentario técnico sobre el trabajo de Darío (Desarrollo del Backend y API):**
-El trabajo de Darío con la lógica del backend y la API facilitó mucho la integración de todo el proyecto. Organizó muy bien el control de acceso usando sesiones y un decorador personalizado (`login_required`) para separar de forma segura lo que puede ver un estudiante de lo que hace el profesor. En `notas.py`, implementó las consultas de SQL de manera limpia, manejando transacciones con commit y rollback para evitar fallas en la base de datos, y haciendo que la nota definitiva se calcule directamente desde la consulta SQL. Además, conectó todo con el JavaScript del frontend usando fetch para que las acciones de crear, editar y borrar notas funcionen al instante sin tener que recargar la página.
+#### Autor: Jhon Jader — Hacia: Dario
 
-**Comentario técnico sobre el trabajo del compañero encargado de frontend :**
-El trabajo de Esteban en el desarrollo de la interfaz de usuario demuestra un entendimiento pragmático del consumo de APIs asíncronas y de la modularización visual. Logró estructurar un sistema de plantillas base consistente (`index.html`) utilizando Jinja2 para renderizar condicionalmente elementos críticos según el estado de la sesión y el rol del usuario (`estudiante`/`profesor`), lo que facilitó enormemente el acoplamiento con las rutas de autenticación del backend. En el apartado estético (`style.css`), la implementación de un layout adaptativo mediante CSS Grid y Flexbox en contenedores clave (como `.inicio-container`, `.login-layout` y `.menu-opciones`) garantiza que la visualización de los datos tabulares y los formularios de gestión de notas se mantenga simétrica en diferentes resoluciones. Asimismo, la estructuración de clases semánticas permitió mapear de forma directa las respuestas JSON de la API hacia el DOM de la aplicación mediante manipulación dinámica de cadenas en JavaScript, logrando una sincronización limpia en el flujo de creación, edición y eliminación de calificaciones sin fricciones ni recargas innecesarias de la página.
+**Comentario tecnico sobre el trabajo de mi companero (desarrollo del backend y API):**
+El trabajo con la logica del backend y la API facilito mucho la integracion
+de todo el proyecto. Se organizo muy bien el control de acceso usando
+sesiones y un decorador personalizado (`login_required`) para separar de
+forma segura lo que puede ver un estudiante de lo que hace el profesor. En
+`notas.py`, se implementaron las consultas SQL de manera limpia, manejando
+transacciones con commit y rollback para evitar fallas en la base de datos,
+y haciendo que la nota definitiva se calcule directamente desde la consulta
+SQL. Ademas, se conecto todo con el JavaScript del frontend usando fetch
+para que las acciones de crear, editar y borrar notas funcionen al instante
+sin recargar la pagina.
 
-**Comentario técnico sobre el trabajo del compañero encargado de Docker:** El trabajo de Juan Román en la configuración de Docker fue fundamental para el proyecto. Organizó correctamente los servicios de la aplicación, PostgreSQL y pgAdmin mediante Docker Compose, configuró las redes, volúmenes y variables de entorno para que todos los integrantes pudiéramos ejecutar el sistema con el mismo comando y sin diferencias entre equipos. Gracias a esa configuración, la integración del frontend, el backend y la base de datos se realizó de forma estable y facilitó las pruebas y el desarrollo colaborativo.
+#### Autor: Dario — Hacia: Esteban
+
+**Comentario tecnico sobre el trabajo de mi companero (frontend):**
+El desarrollo de la interfaz de usuario demuestra un entendimiento
+pragmatico del consumo de APIs asincronas y de la modularizacion visual. Se
+logro estructurar un sistema de plantillas base consistente (`index.html`)
+utilizando Jinja2 para renderizar condicionalmente elementos criticos segun
+el estado de la sesion y el rol del usuario (`estudiante`/`profesor`), lo
+que facilito enormemente el acoplamiento con las rutas de autenticacion del
+backend. En el apartado estetico (`style.css`), la implementacion de un
+layout adaptativo mediante CSS Grid y Flexbox en contenedores clave (como
+`.inicio-container`, `.login-layout` y `.menu-opciones`) garantiza que la
+visualizacion de los datos tabulares y los formularios de gestion de notas
+se mantenga simetrica en diferentes resoluciones. Asimismo, la
+estructuracion de clases semanticas permitio mapear de forma directa las
+respuestas JSON de la API hacia el DOM de la aplicacion mediante
+manipulacion dinamica de cadenas en JavaScript, logrando una sincronizacion
+limpia en el flujo de creacion, edicion y eliminacion de calificaciones sin
+friccion ni recargas innecesarias de la pagina.
+
+#### Autor: Esteban — Hacia: Juan
+
+**Comentario tecnico sobre el trabajo de mi companero (configuracion Docker):**
+La configuracion de Docker fue fundamental para el proyecto. Se organizaron
+correctamente los servicios de la aplicacion, PostgreSQL y pgAdmin mediante
+Docker Compose, configurando redes, volumenes y variables de entorno para
+que todos los integrantes pudieramos ejecutar el sistema con el mismo
+comando y sin diferencias entre equipos. Gracias a esa configuracion, la
+integracion del frontend, el backend y la base de datos se realizo de
+forma estable y facilito las pruebas y el desarrollo colaborativo.
