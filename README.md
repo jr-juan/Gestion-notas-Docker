@@ -237,3 +237,6 @@ Jhon Jader (poblado de datos) esta muy bien resuelto: uso
 manual, lo que evita errores de llave duplicada mas adelante, y genero las
 800 notas con `INSERT ... SELECT ... FROM estudiantes` usando `random()` en
 vez de escribirlas una por una.
+Coevaluación entre compañeros
+
+**Comentario técnico sobre el trabajo del compañero encargado de Docker:** El trabajo de Juan Román en la configuración de Docker fue fundamental para el proyecto. Organizó correctamente los servicios de la aplicación, PostgreSQL y pgAdmin mediante Docker Compose, configuró las redes, volúmenes y variables de entorno para que todos los integrantes pudiéramos ejecutar el sistema con el mismo comando y sin diferencias entre equipos. Gracias a esa configuración, la integración del frontend, el backend y la base de datos se realizó de forma estable y facilitó las pruebas y el desarrollo colaborativo.
